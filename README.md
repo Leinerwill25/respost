@@ -82,7 +82,7 @@ Paleta cálida basada en tonos rojo/marrón/crema:
 | `--text-muted` | `#A07050` | Texto secundario |
 | `--border-default` | `#E8D5BE` | Bordes de inputs y cards |
 
-Tipografía: **Playfair Display** (display) · **DM Sans** (cuerpo)
+Tipografía: **Nunito** (display) · **DM Sans** (cuerpo)
 
 ## Despliegue
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=DM+Sans:wght@400;500;600&family=Dancing+Script:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=DM+Sans:wght@400;500;600&family=Dancing+Script:wght@600&display=swap');
 @import "tailwindcss";
 @config "../../tailwind.config.ts";
 
@@ -55,7 +55,7 @@
   --radius-full: 9999px;
 
   /* ── TIPOGRAFÍA ── */
-  --font-display: 'Playfair Display', Georgia, serif;
+  --font-display: 'Nunito', sans-serif;
   --font-body:    'DM Sans', sans-serif;
   --font-script:  'Dancing Script', cursive;
 
@@ -154,7 +154,7 @@ html {
   font-family: var(--font-dm-sans, 'DM Sans', sans-serif);
 }
 .font-landing-display {
-  font-family: var(--font-playfair, 'Playfair Display', Georgia, serif);
+  font-family: var(--font-nunito, 'Nunito', sans-serif);
 }
 .font-landing-cursive {
   font-family: var(--font-dancing, 'Dancing Script', cursive);

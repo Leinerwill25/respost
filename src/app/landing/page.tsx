@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans, Dancing_Script } from "next/font/google";
+import { Nunito, DM_Sans, Dancing_Script } from "next/font/google";
 import Navbar from "@/components/landing/Navbar";
 import HeroSection from "@/components/landing/HeroSection";
 import FeaturesBar from "@/components/landing/FeaturesBar";
@@ -12,10 +12,11 @@ import FAQSection from "@/components/landing/FAQSection";
 import FinalCTA from "@/components/landing/FinalCTA";
 import Footer from "@/components/landing/Footer";
 
-const playfair = Playfair_Display({
+const nunito = Nunito({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-nunito",
   display: "swap",
+  weight: ["600", "700", "800", "900"],
 });
 
 const dmSans = DM_Sans({
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
 export default function LandingPage() {
   return (
     <div
-      className={`${playfair.variable} ${dmSans.variable} ${dancingScript.variable} font-landing-sans bg-[#FDF5EC] text-[#2C1208] antialiased min-h-screen`}
+      className={`${nunito.variable} ${dmSans.variable} ${dancingScript.variable} font-landing-sans bg-[#FDF5EC] text-[#2C1208] antialiased min-h-screen`}
     >
       <Navbar />
       <main className="overflow-x-hidden">

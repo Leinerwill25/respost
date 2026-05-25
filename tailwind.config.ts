@@ -59,7 +59,7 @@ const config: Config = {
         }
       },
       fontFamily: {
-        display: ["var(--font-display)", 'Playfair Display', 'Georgia', 'serif'],
+        display: ["var(--font-display)", 'Nunito', 'sans-serif'],
         sans: ["var(--font-body)", 'DM Sans', 'sans-serif'],
         body: ["var(--font-body)", 'DM Sans', 'sans-serif'],
         script: ["var(--font-script)", 'Dancing Script', 'cursive'],
