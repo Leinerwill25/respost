@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { User as UserIcon, Mail, Store, Sparkles, Check, Loader2, ShieldCheck } from "lucide-react";
+import { User as UserIcon, Mail, Store, Sparkles, Check, Loader2, ShieldCheck, TrendingUp, RefreshCw, AlertTriangle } from "lucide-react";
 
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { toast } from "sonner";
+import { createBrowserClient } from "@/lib/supabase/client";
 
 const profileSchema = z.object({
   full_name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
@@ -22,6 +23,80 @@ type ProfileFormData = z.infer<typeof profileSchema>;
 export default function PerfilPage() {
   const { data: profile, isLoading } = useProfile();
   const updateProfile = useUpdateProfile();
+
+  const [rateMode, setRateMode] = useState<"auto" | "manual">("auto");
+  const [manualRateValue, setManualRateValue] = useState<string>("");
+  const [ratesHistory, setRatesHistory] = useState<any[]>([]);
+  const [loadingRates, setLoadingRates] = useState(false);
+  const [savingRate, setSavingRate] = useState(false);
+
+  useEffect(() => {
+    if (profile) {
+      const localMode = typeof window !== "undefined" ? localStorage.getItem("pp_rate_mode") as "auto" | "manual" | null : null;
+      const localRate = typeof window !== "undefined" ? localStorage.getItem("pp_manual_rate_value") : null;
+
+      setRateMode(profile.rate_mode ?? localMode ?? "auto");
+      setManualRateValue(profile.manual_rate_value?.toString() ?? localRate ?? "");
+    }
+  }, [profile]);
+
+  const fetchRates = async () => {
+    setLoadingRates(true);
+    try {
+      const supabase = createBrowserClient();
+      const { data, error } = await (supabase as any)
+        .from("rates")
+        .select("*")
+        .order("rate_datetime", { ascending: false })
+        .limit(10);
+      if (!error && data) {
+        setRatesHistory(data);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoadingRates(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRates();
+  }, []);
+
+  const handleSaveRate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const numericRate = parseFloat(manualRateValue);
+    if (rateMode === "manual" && (isNaN(numericRate) || numericRate <= 0)) {
+      toast.error("Por favor ingresa una tasa manual válida mayor a 0");
+      return;
+    }
+
+    setSavingRate(true);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("pp_rate_mode", rateMode);
+      if (rateMode === "manual") {
+        localStorage.setItem("pp_manual_rate_value", numericRate.toString());
+      }
+    }
+
+    try {
+      await updateProfile.mutateAsync({
+        rate_mode: rateMode,
+        manual_rate_value: rateMode === "manual" ? numericRate : null,
+      });
+    } catch (err: any) {
+      console.warn("No se pudo persistir en base de datos. Se aplicó localmente.");
+      toast.success("✓ Configuración de tasa aplicada localmente en este navegador");
+    } finally {
+      setSavingRate(false);
+    }
+  };
+
+  const handleUseRate = (val: number) => {
+    setRateMode("manual");
+    setManualRateValue(val.toString());
+    toast.info(`Seleccionaste ${val.toFixed(2)} Bs. Haz clic en "Guardar Tasa" para aplicar.`);
+  };
 
   const {
     register,
@@ -147,6 +222,134 @@ export default function PerfilPage() {
                   </Button>
                 </div>
               </form>
+            </div>
+          </Card>
+
+          {/* Configuración de Tasa Cambiaria */}
+          <Card className="mt-6">
+            <div className="p-6">
+              <CardHeader
+                title="Configuración de Tasa Cambiaria"
+                subtitle="Elige si deseas usar la tasa automática del sistema o una personalizada"
+                icon={<TrendingUp className="w-5 h-5" />}
+              />
+
+              <form onSubmit={handleSaveRate} className="space-y-5 mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="block text-sm font-medium text-[#6B3A1F] mb-1.5">
+                      Modo de Tasa
+                    </label>
+                    <select
+                      value={rateMode}
+                      onChange={(e) => setRateMode(e.target.value as "auto" | "manual")}
+                      className="w-full px-4 py-2.5 border border-[#E8D5BE] rounded-[12px] bg-white text-[#2C1208] focus:outline-none focus:ring-2 focus:ring-[#FAE8E5] focus:border-[#C43B2A] text-sm"
+                    >
+                      <option value="auto">Automático (Tasa BCV del día)</option>
+                      <option value="manual">Manual (Personalizada)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-[#6B3A1F] mb-1.5">
+                      Tasa Manual (Bs. por EUR)
+                    </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0.01"
+                      disabled={rateMode === "auto"}
+                      value={manualRateValue}
+                      onChange={(e) => setManualRateValue(e.target.value)}
+                      placeholder="Ej: 615.50"
+                      className="w-full px-4 py-2.5 border border-[#E8D5BE] rounded-[12px] bg-white text-[#2C1208] placeholder:text-[#A07050]/60 focus:outline-none focus:ring-2 focus:ring-[#FAE8E5] focus:border-[#C43B2A] transition-all text-sm disabled:bg-[#F5EDE0] disabled:cursor-not-allowed"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    isLoading={savingRate}
+                    leftIcon={<ShieldCheck className="w-4 h-4" />}
+                  >
+                    Guardar Tasa
+                  </Button>
+                </div>
+              </form>
+
+              {/* Historial de tasas en la base de datos */}
+              <div className="mt-8 border-t border-[#E8D5BE] pt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h4 className="font-display font-semibold text-[#2C1208]">Tasas en Base de Datos</h4>
+                    <p className="text-xs text-[#A07050]">Historial extraído de Supabase</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={fetchRates}
+                    disabled={loadingRates}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FAE8E5] hover:bg-[#F4C5BC] text-[#6B3A1F] font-semibold rounded-[8px] text-xs transition-colors cursor-pointer"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${loadingRates ? "animate-spin" : ""}`} />
+                    Actualizar
+                  </button>
+                </div>
+
+                {loadingRates ? (
+                  <div className="py-8 text-center text-[#A07050]">
+                    <div className="animate-spin w-6 h-6 border-2 border-[#C43B2A] border-t-transparent rounded-full mx-auto mb-2" />
+                    <p className="text-xs">Cargando tasas...</p>
+                  </div>
+                ) : ratesHistory.length === 0 ? (
+                  <div className="py-8 text-center bg-[#FDF5EC] rounded-[12px] border border-dashed border-[#E8D5BE]">
+                    <AlertTriangle className="w-6 h-6 text-[#A07050] mx-auto mb-2" />
+                    <p className="text-xs text-[#6B3A1F] font-medium">No se encontraron tasas en la tabla `rates`</p>
+                  </div>
+                ) : (
+                  <div className="overflow-hidden border border-[#E8D5BE] rounded-[12px]">
+                    <table className="w-full text-xs text-left">
+                      <thead className="bg-[#F5EDE0] text-[#6B3A1F] uppercase font-semibold">
+                        <tr>
+                          <th className="px-4 py-2.5">Fecha</th>
+                          <th className="px-4 py-2.5">Código</th>
+                          <th className="px-4 py-2.5 text-right">Valor</th>
+                          <th className="px-4 py-2.5 text-center">Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-[#E8D5BE]">
+                        {ratesHistory.map((r) => (
+                          <tr key={r.id} className="hover:bg-[#FDF3F1] transition-colors">
+                            <td className="px-4 py-2 text-[#2C1208] font-medium">
+                              {new Date(r.rate_datetime).toLocaleDateString("es-VE", {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              })}
+                            </td>
+                            <td className="px-4 py-2 text-[#6B3A1F] font-semibold">{r.code}</td>
+                            <td className="px-4 py-2 text-right font-bold text-[#2C1208]">
+                              {r.rate.toFixed(2)} Bs
+                            </td>
+                            <td className="px-4 py-2 text-center">
+                              <button
+                                type="button"
+                                onClick={() => handleUseRate(r.rate)}
+                                className="px-2.5 py-1 bg-[#C43B2A] text-white hover:bg-[#9B2A1B] text-[11px] font-bold rounded-[6px] transition-colors cursor-pointer"
+                              >
+                                Usar esta tasa
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
             </div>
           </Card>
         </div>

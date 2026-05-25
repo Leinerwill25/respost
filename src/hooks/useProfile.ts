@@ -33,19 +33,28 @@ export function useUpdateProfile() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (params: { full_name: string; business_name: string | null }) => {
+    mutationFn: async (params: {
+      full_name?: string;
+      business_name?: string | null;
+      rate_mode?: "auto" | "manual";
+      manual_rate_value?: number | null;
+    }) => {
       const {
         data: { user },
       } = await supabase.auth.getUser();
       if (!user) throw new Error("No autenticado");
 
+      const payload: any = {
+        updated_at: new Date().toISOString(),
+      };
+      if (params.full_name !== undefined) payload.full_name = params.full_name;
+      if (params.business_name !== undefined) payload.business_name = params.business_name;
+      if (params.rate_mode !== undefined) payload.rate_mode = params.rate_mode;
+      if (params.manual_rate_value !== undefined) payload.manual_rate_value = params.manual_rate_value;
+
       const { data, error } = await (supabase as any)
         .from("profiles")
-        .update({
-          full_name: params.full_name,
-          business_name: params.business_name,
-          updated_at: new Date().toISOString(),
-        })
+        .update(payload)
         .eq("id", user.id)
         .select()
         .single();
@@ -55,10 +64,11 @@ export function useUpdateProfile() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
-      toast.success("✓ Perfil actualizado exitosamente");
+      queryClient.invalidateQueries({ queryKey: ["euro-rate"] });
+      toast.success("✓ Configuración actualizada exitosamente");
     },
     onError: (error) => {
-      toast.error(`Error al actualizar perfil: ${error.message}`);
+      toast.error(`Error al actualizar configuración: ${error.message}`);
     },
   });
 }

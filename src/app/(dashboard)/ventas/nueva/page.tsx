@@ -58,11 +58,11 @@ type QuoteForm = z.infer<typeof quoteSchema>;
 type ManualForm = z.infer<typeof manualSchema>;
 
 const PAYMENT_OPTIONS = [
-  { value: "efectivo_usd", label: "Efectivo USD" },
-  { value: "efectivo_bs", label: "Efectivo Bs" },
-  { value: "transferencia", label: "Transferencia" },
-  { value: "pago_movil", label: "Pago Móvil" },
-  { value: "zelle", label: "Zelle" },
+  { value: "pago_movil", label: "Pago móvil (Bolívares)" },
+  { value: "efectivo_bs", label: "Efectivo (Bolívares)" },
+  { value: "efectivo_usd", label: "Efectivo (Dólares)" },
+  { value: "transferencia", label: "Transferencia (Bolívares)" },
+  { value: "zelle", label: "Zelle (Dólares)" },
   { value: "otro", label: "Otro" },
 ];
 

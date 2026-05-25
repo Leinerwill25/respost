@@ -18,6 +18,8 @@ export interface Database {
           email: string;
           avatar_url: string | null;
           plan: "free" | "pro";
+          rate_mode?: "auto" | "manual";
+          manual_rate_value?: number | null;
           created_at: string;
           updated_at: string;
         };
@@ -28,6 +30,8 @@ export interface Database {
           email: string;
           avatar_url?: string | null;
           plan?: "free" | "pro";
+          rate_mode?: "auto" | "manual";
+          manual_rate_value?: number | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -38,6 +42,8 @@ export interface Database {
           email?: string;
           avatar_url?: string | null;
           plan?: "free" | "pro";
+          rate_mode?: "auto" | "manual";
+          manual_rate_value?: number | null;
           created_at?: string;
           updated_at?: string;
         };

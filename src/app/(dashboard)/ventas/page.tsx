@@ -24,11 +24,11 @@ import { formatUSD, formatBs, convertToBs, formatRelativeDate } from "@/lib/curr
 type DateFilter = "this_month" | "last_30" | "custom";
 
 const PAYMENT_LABELS: Record<string, { label: string; variant: "success" | "info" | "primary" | "warning" | "default" }> = {
-  efectivo_usd: { label: "Efectivo USD", variant: "success" },
-  efectivo_bs: { label: "Efectivo Bs", variant: "warning" },
-  transferencia: { label: "Transferencia", variant: "info" },
-  pago_movil: { label: "Pago Móvil", variant: "info" },
-  zelle: { label: "Zelle", variant: "primary" },
+  efectivo_usd: { label: "Efectivo (Dólares)", variant: "success" },
+  efectivo_bs: { label: "Efectivo (Bolívares)", variant: "warning" },
+  transferencia: { label: "Transferencia (Bolívares)", variant: "info" },
+  pago_movil: { label: "Pago móvil (Bolívares)", variant: "info" },
+  zelle: { label: "Zelle (Dólares)", variant: "primary" },
   otro: { label: "Otro", variant: "default" },
 };
 
