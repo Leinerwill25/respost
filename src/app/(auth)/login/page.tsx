@@ -76,9 +76,7 @@ export default function LoginPage() {
           ))}
         </div>
         <div className="relative z-10 text-center text-white">
-          <div className="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6 backdrop-blur-sm">
-            <ChefHat className="w-10 h-10 text-white" />
-          </div>
+          <img src="/images/logo.png" alt="Logo PastryPro" className="w-20 h-20 rounded-2xl mx-auto mb-6 object-cover shadow-sm bg-white p-2 border border-white/10" />
           <h1 className="font-display text-5xl font-bold mb-4 leading-tight">
             PastryPro
           </h1>
@@ -107,11 +105,8 @@ export default function LoginPage() {
       {/* Panel derecho — formulario */}
       <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md animate-fade-in">
-          {/* Logo mobile */}
           <div className="lg:hidden flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-[#C43B2A] rounded-xl flex items-center justify-center">
-              <ChefHat className="w-5 h-5 text-white" />
-            </div>
+            <img src="/images/logo.png" alt="Logo PastryPro" className="w-10 h-10 rounded-xl object-cover bg-white p-1 border border-[#E8D5BE]" />
             <span className="font-display text-2xl font-bold text-[#2C1208]">
               PastryPro
             </span>

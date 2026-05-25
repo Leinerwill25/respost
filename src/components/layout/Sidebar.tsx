@@ -68,7 +68,7 @@ export function Sidebar({ isOpen = true, onClose }: SidebarProps) {
         <div className="p-6 border-b border-[var(--border-default)]">
           <div className="flex items-center justify-between">
             <Link href="/dashboard" className="flex items-center gap-2">
-              <span className="text-2xl">🧁</span>
+              <img src="/images/logo.png" alt="Logo" className="w-8 h-8 object-cover rounded-[8px]" />
               <span className="font-display text-xl font-bold text-[var(--text-heading)] tracking-tight">
                 Pastry<span className="text-[var(--red-600)] font-extrabold">Pro</span>
               </span>

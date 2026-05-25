@@ -69,9 +69,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md animate-fade-in">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-[#C43B2A] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-card">
-            <ChefHat className="w-8 h-8 text-white" />
-          </div>
+          <img src="/images/logo.png" alt="Logo PastryPro" className="w-16 h-16 rounded-2xl mx-auto mb-4 object-cover shadow-card bg-white p-2 border border-[#E8D5BE]" />
           <h1 className="font-display text-3xl font-bold text-[#2C1208] mb-2">
             Crea tu cuenta
           </h1>

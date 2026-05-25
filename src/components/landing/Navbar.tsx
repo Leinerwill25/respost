@@ -39,7 +39,7 @@ export default function Navbar() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex items-center justify-between">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <span className="text-2xl animate-pulse-soft">🧁</span>
+            <img src="/images/logo.png" alt="Logo PastryPro" className="w-8 h-8 object-cover rounded-[8px]" />
             <span className="font-landing-display text-xl font-bold text-[#2C1208] tracking-tight">
               Pastry<span className="text-[#C43B2A] font-extrabold">Pro</span>
             </span>
