@@ -51,6 +51,21 @@ const REASON_COLORS: Record<
   ajuste: "warning",
 };
 
+function getPresentationLabels(unit: string) {
+  switch (unit) {
+    case "g":
+    case "kg":
+      return { size: "Tamaño empaque", price: "Precio empaque" };
+    case "ml":
+    case "l":
+      return { size: "Contenido envase", price: "Precio envase" };
+    case "unidades":
+      return { size: "Contenido caja", price: "Precio caja" };
+    default:
+      return { size: "Tamaño presentación", price: "Precio presentación" };
+  }
+}
+
 export default function IngredientDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -107,6 +122,8 @@ export default function IngredientDetailPage() {
     ingredient.price_usd > 0 && ingredient.package_size > 0
       ? ingredient.price_usd / ingredient.package_size
       : 0;
+
+  const terms = getPresentationLabels(ingredient.unit);
 
   const isLowStock =
     ingredient.min_stock_alert > 0 &&
@@ -209,7 +226,7 @@ export default function IngredientDetailPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-[#A07050]">
                   <Archive className="w-4 h-4" />
-                  Tamaño paquete
+                  {terms.size}
                 </div>
                 <span className="text-sm font-semibold text-[#2C1208]">
                   {ingredient.package_size} {ingredient.unit}
@@ -220,7 +237,7 @@ export default function IngredientDetailPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-[#A07050]">
                   <DollarSign className="w-4 h-4" />
-                  Precio paquete
+                  {terms.price}
                 </div>
                 <CurrencyDisplay
                   amountUsd={ingredient.price_usd}

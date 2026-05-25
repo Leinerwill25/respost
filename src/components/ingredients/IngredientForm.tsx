@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Package, Tag, Ruler, DollarSign, Archive, Bell, StickyNote, PlusCircle } from "lucide-react";
+import { Package, Tag, Ruler, DollarSign, Archive, Bell, StickyNote, PlusCircle, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import {
@@ -14,6 +14,41 @@ import {
   useCreateCategory,
 } from "@/hooks/useIngredients";
 import { formatUSD } from "@/lib/currency";
+
+function getUnitTerminology(unit: string) {
+  switch (unit) {
+    case "g":
+    case "kg":
+      return {
+        sizeLabel: `Tamaño del empaque/paquete (${unit})`,
+        priceLabel: "Precio USD (por empaque/paquete)",
+        sizePlaceholder: "Ej: 1000",
+        helpText: "Peso total del empaque cerrado en la unidad seleccionada.",
+      };
+    case "ml":
+    case "l":
+      return {
+        sizeLabel: `Contenido del envase/botella (${unit})`,
+        priceLabel: "Precio USD (por envase/botella)",
+        sizePlaceholder: "Ej: 1000",
+        helpText: "Volumen total del envase en la unidad seleccionada.",
+      };
+    case "unidades":
+      return {
+        sizeLabel: "Unidades por empaque/caja",
+        priceLabel: "Precio USD (por empaque/caja)",
+        sizePlaceholder: "Ej: 12",
+        helpText: "Número de unidades individuales que trae el empaque/caja.",
+      };
+    default:
+      return {
+        sizeLabel: `Tamaño de la presentación (${unit})`,
+        priceLabel: "Precio USD (por presentación)",
+        sizePlaceholder: "Ej: 1",
+        helpText: "",
+      };
+  }
+}
 
 const UNITS = [
   { value: "g", label: "Gramos (g)" },
@@ -105,6 +140,7 @@ export function IngredientForm({
   const priceUsd = watch("price_usd");
   const packageSize = watch("package_size");
   const unit = watch("unit");
+  const terms = getUnitTerminology(unit);
 
   const unitPrice =
     priceUsd > 0 && packageSize > 0 ? priceUsd / packageSize : null;
@@ -261,19 +297,22 @@ export function IngredientForm({
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-semibold text-[var(--text-secondary)]">
-            Tamaño del paquete ({unit})
+            {terms.sizeLabel}
           </label>
           <input
             type="number"
             min="0"
             step="any"
             {...register("package_size", { valueAsNumber: true })}
-            placeholder="Ej: 1000"
+            placeholder={terms.sizePlaceholder}
             className={`w-full py-2.5 px-3 border rounded-[var(--radius-md)] text-[var(--text-heading)] bg-white
               placeholder:text-[var(--text-muted)]/60 focus:outline-none focus:ring-3 focus:ring-[var(--red-100)]
               focus:border-[var(--red-600)] transition-all duration-200 text-sm
               ${errors.package_size ? "border-red-400" : "border-[var(--border-default)]"}`}
           />
+          {terms.helpText && (
+            <p className="text-[11px] text-[var(--text-muted)] mt-0.5">{terms.helpText}</p>
+          )}
           {errors.package_size && (
             <p className="text-xs text-red-500 font-semibold">{errors.package_size.message}</p>
           )}
@@ -282,7 +321,7 @@ export function IngredientForm({
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-semibold text-[var(--text-secondary)] flex items-center gap-1.5">
             <DollarSign className="w-3.5 h-3.5" />
-            Precio USD (paquete)
+            {terms.priceLabel}
           </label>
           <input
             type="number"
@@ -300,6 +339,43 @@ export function IngredientForm({
           )}
         </div>
       </div>
+
+      {/* Warnings for Unit/Weight Confusions */}
+      {unit === "kg" && (packageSize >= 10 || watch("stock_quantity") >= 50) && (
+        <div className="p-3 bg-amber-50 border border-amber-200 rounded-[10px] text-xs text-amber-850 flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <span className="font-semibold text-amber-900">⚠️ ¿Tus cantidades están realmente en Kilogramos?</span>
+            <p className="mt-0.5 text-amber-800 leading-relaxed">
+              Ingresaste un valor grande ({packageSize >= 10 ? `${packageSize} kg en el tamaño` : `${watch("stock_quantity")} kg en stock`}). Si este insumo viene en gramos (ej: un empaque de 500 gramos), debes seleccionar la unidad <strong>Gramos (g)</strong> e ingresar 500.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {unit === "l" && (packageSize >= 10 || watch("stock_quantity") >= 50) && (
+        <div className="p-3 bg-amber-50 border border-amber-200 rounded-[10px] text-xs text-amber-850 flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <span className="font-semibold text-amber-900">⚠️ ¿Tus cantidades están realmente en Litros?</span>
+            <p className="mt-0.5 text-amber-800 leading-relaxed">
+              Ingresaste un valor grande ({packageSize >= 10 ? `${packageSize} litros en el tamaño` : `${watch("stock_quantity")} litros en stock`}). Si querías indicar mililitros (ej: una esencia de 250 mililitros), debes seleccionar la unidad <strong>Mililitros (ml)</strong> e ingresar 250.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {((unit === "g" || unit === "ml") && packageSize > 0 && packageSize < 1) && (
+        <div className="p-3 bg-amber-50 border border-amber-200 rounded-[10px] text-xs text-amber-850 flex items-start gap-2">
+          <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+          <div>
+            <span className="font-semibold text-amber-900">⚠️ ¿Ingresaste decimales en gramos/mililitros?</span>
+            <p className="mt-0.5 text-amber-800 leading-relaxed">
+              Ingresaste un valor menor a 1 ({packageSize} {unit}). Si querías indicar medio kilogramo (0.5 kg) o medio litro (0.5 l), es mejor cambiar la unidad a <strong>Kilogramos (kg)</strong> o <strong>Litros (l)</strong>, o escribirlo en gramos enteros (ej: <strong>500 g</strong>).
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Calculated Unit Price */}
       {unitPrice !== null && (

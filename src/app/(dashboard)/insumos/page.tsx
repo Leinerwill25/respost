@@ -42,6 +42,21 @@ type IngredientRow = {
   ingredient_categories?: { id: string; name: string } | null;
 };
 
+export function getPresentationLabel(unit: string, size: number) {
+  switch (unit) {
+    case "g":
+    case "kg":
+      return `Empaque: ${size} ${unit}`;
+    case "ml":
+    case "l":
+      return `Envase: ${size} ${unit}`;
+    case "unidades":
+      return size === 1 ? "Unidad individual" : `Empaque: ${size} unidades`;
+    default:
+      return `Presentación: ${size} ${unit}`;
+  }
+}
+
 export default function InsumosPage() {
   const router = useRouter();
 
@@ -281,7 +296,7 @@ export default function InsumosPage() {
                               {ing.name}
                             </button>
                             <p className="text-xs text-[#A07050]">
-                              Paquete: {ing.package_size} {ing.unit} · $
+                              {getPresentationLabel(ing.unit, ing.package_size)} · $
                               {ing.price_usd.toFixed(2)}
                             </p>
                           </div>
