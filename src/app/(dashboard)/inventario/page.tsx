@@ -125,9 +125,9 @@ export default function InventarioPage() {
                   <th className="text-left px-6 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Producto</th>
                   <th className="text-center px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Disponible</th>
                   <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Precio Venta</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Costo</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Margen</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Valor Stock</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden md:table-cell">Costo</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden sm:table-cell">Margen</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden sm:table-cell">Valor Stock</th>
                   <th className="text-center px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Acción</th>
                 </tr>
               </thead>
@@ -183,19 +183,19 @@ export default function InventarioPage() {
                         <div className="font-semibold text-[#2C1208]">
                           {formatUSD(item.sale_price_usd)}
                         </div>
-                        <div className="text-xs text-[#A07050]">
+                        <div className="text-xs text-[#A07050] hidden sm:block">
                           {formatBs(convertToBs(item.sale_price_usd, euroRate))}
                         </div>
                       </td>
 
-                      <td className="px-4 py-4 text-right">
+                      <td className="px-4 py-4 text-right hidden md:table-cell">
                         <div className="text-[#6B3A1F]">{formatUSD(item.cost_price_usd)}</div>
                         <div className="text-xs text-[#A07050]">
                           {formatBs(convertToBs(item.cost_price_usd, euroRate))}
                         </div>
                       </td>
 
-                      <td className="px-4 py-4 text-right">
+                      <td className="px-4 py-4 text-right hidden sm:table-cell">
                         <Badge
                           variant={margin >= 40 ? "success" : margin >= 20 ? "warning" : "danger"}
                         >
@@ -203,7 +203,7 @@ export default function InventarioPage() {
                         </Badge>
                       </td>
 
-                      <td className="px-4 py-4 text-right">
+                      <td className="px-4 py-4 text-right hidden sm:table-cell">
                         <div className="font-medium text-[#2C1208]">{formatUSD(stockValue)}</div>
                         <div className="text-xs text-[#A07050]">
                           {formatBs(convertToBs(stockValue, euroRate))}

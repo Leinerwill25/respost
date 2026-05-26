@@ -317,7 +317,7 @@ export default function ProduccionPage() {
                         <th className="text-left px-6 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Ingrediente</th>
                         <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Necesario</th>
                         <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Disponible</th>
-                        <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Costo</th>
+                        <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden sm:table-cell">Costo</th>
                         <th className="text-center px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Estado</th>
                       </tr>
                     </thead>
@@ -351,7 +351,7 @@ export default function ProduccionPage() {
                               {ing.available.toLocaleString("es-VE")} {ing.unit}
                             </span>
                           </td>
-                          <td className="px-4 py-3 text-right">
+                          <td className="px-4 py-3 text-right hidden sm:table-cell">
                             <div className="text-[#2C1208] font-medium">
                               {formatUSD(ing.costPerBatch * quantity)}
                             </div>
@@ -412,13 +412,14 @@ export default function ProduccionPage() {
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-between pt-4 border-t border-[#E8D5BE]">
+                <div className="mt-4 flex flex-col sm:flex-row gap-3 items-center sm:justify-between pt-4 border-t border-[#E8D5BE]">
                   <div className="text-sm text-[#A07050]">
                     Tasa EUR: <span className="font-semibold text-[#2C1208]">{euroRate.toFixed(2)} Bs</span>
                   </div>
                   <Button
                     variant="primary"
                     size="lg"
+                    className="w-full sm:w-auto"
                     isLoading={production.isPending}
                     onClick={onSubmit}
                     leftIcon={<ChefHat className="w-5 h-5" />}

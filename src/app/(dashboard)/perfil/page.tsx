@@ -313,7 +313,7 @@ export default function PerfilPage() {
                       <thead className="bg-[#F5EDE0] text-[#6B3A1F] uppercase font-semibold">
                         <tr>
                           <th className="px-4 py-2.5">Fecha</th>
-                          <th className="px-4 py-2.5">Código</th>
+                          <th className="px-4 py-2.5 hidden sm:table-cell">Código</th>
                           <th className="px-4 py-2.5 text-right">Valor</th>
                           <th className="px-4 py-2.5 text-center">Acción</th>
                         </tr>
@@ -330,7 +330,7 @@ export default function PerfilPage() {
                                 minute: "2-digit",
                               })}
                             </td>
-                            <td className="px-4 py-2 text-[#6B3A1F] font-semibold">{r.code}</td>
+                            <td className="px-4 py-2 text-[#6B3A1F] font-semibold hidden sm:table-cell">{r.code}</td>
                             <td className="px-4 py-2 text-right font-bold text-[#2C1208]">
                               {r.rate.toFixed(2)} Bs
                             </td>

@@ -328,20 +328,20 @@ export default function ReportesPage() {
           </div>
 
           {dateFilter === "custom" && (
-            <div className="flex items-center gap-3 animate-fade-in">
+            <div className="grid grid-cols-2 md:flex md:items-center gap-3 w-full md:w-auto animate-fade-in">
               <Input
                 type="date"
                 label="Desde"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="max-w-[160px]"
+                className="w-full md:w-[160px]"
               />
               <Input
                 type="date"
                 label="Hasta"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="max-w-[160px]"
+                className="w-full md:w-[160px]"
               />
             </div>
           )}
@@ -448,8 +448,8 @@ export default function ReportesPage() {
                       <tr className="bg-[#F5EDE0] text-[#6B3A1F]">
                         <th className="py-2.5 px-4 font-semibold rounded-l-[6px]">Producto</th>
                         <th className="py-2.5 px-4 font-semibold text-center">Uds. vendidas</th>
-                        <th className="py-2.5 px-4 font-semibold text-right">Facturación USD</th>
-                        <th className="py-2.5 px-4 font-semibold text-right rounded-r-[6px]">Facturación Bs</th>
+                        <th className="py-2.5 px-4 font-semibold text-right rounded-r-[6px] sm:rounded-r-none">Facturación USD</th>
+                        <th className="py-2.5 px-4 font-semibold text-right rounded-r-[6px] hidden sm:table-cell">Facturación Bs</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#E8D5BE]">
@@ -469,7 +469,7 @@ export default function ReportesPage() {
                             <td className="py-3 px-4 text-right font-semibold text-[#2C1208]">
                               {formatUSD(prod.revenue)}
                             </td>
-                            <td className="py-3 px-4 text-right text-[#A07050]">
+                            <td className="py-3 px-4 text-right text-[#A07050] hidden sm:table-cell">
                               {formatBs(convertToBs(prod.revenue, euroRate))}
                             </td>
                           </tr>
@@ -494,9 +494,9 @@ export default function ReportesPage() {
                     <tr className="bg-[#F5EDE0] text-[#6B3A1F]">
                       <th className="py-3 px-4 font-semibold rounded-l-[6px]">Receta / Producto</th>
                       <th className="py-3 px-4 font-semibold text-right">Vendido (USD)</th>
-                      <th className="py-3 px-4 font-semibold text-right">Costo Materiales (USD)</th>
-                      <th className="py-3 px-4 font-semibold text-right">Ganancia (USD)</th>
-                      <th className="py-3 px-4 font-semibold text-center rounded-r-[6px]">Margen Promedio</th>
+                      <th className="py-3 px-4 font-semibold text-right hidden sm:table-cell">Costo Materiales (USD)</th>
+                      <th className="py-3 px-4 font-semibold text-right rounded-r-[6px] sm:rounded-r-none">Ganancia (USD)</th>
+                      <th className="py-3 px-4 font-semibold text-center rounded-r-[6px] hidden sm:table-cell">Margen Promedio</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-[#E8D5BE]">
@@ -513,13 +513,13 @@ export default function ReportesPage() {
                           <td className="py-3 px-4 text-right font-semibold text-[#2C1208]">
                             {formatUSD(item.revenue)}
                           </td>
-                          <td className="py-3 px-4 text-right text-[#C43B2A] font-medium">
+                          <td className="py-3 px-4 text-right text-[#C43B2A] font-medium hidden sm:table-cell">
                             {formatUSD(item.cost)}
                           </td>
                           <td className="py-3 px-4 text-right text-[#2E7D32] font-bold">
                             {formatUSD(item.profit)}
                           </td>
-                          <td className="py-3 px-4 text-center">
+                          <td className="py-3 px-4 text-center hidden sm:table-cell">
                             <Badge variant={item.margin > 50 ? "success" : item.margin > 30 ? "info" : "warning"}>
                               {item.margin.toFixed(1)}%
                             </Badge>

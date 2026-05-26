@@ -108,18 +108,20 @@ export default function RecipeDetailPage() {
           { label: recipe.name },
         ]}
         actions={
-          <div className="flex items-center gap-2">
-            <Link href={`/produccion?recipe=${recipe.id}`}>
+          <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            <Link href={`/produccion?recipe=${recipe.id}`} className="flex-1 sm:flex-initial">
               <Button
                 variant="secondary"
+                className="w-full"
                 leftIcon={<Factory className="w-4 h-4" />}
               >
                 Producir
               </Button>
             </Link>
-            <Link href={`/recetas/${recipe.id}/editar`}>
+            <Link href={`/recetas/${recipe.id}/editar`} className="flex-1 sm:flex-initial">
               <Button
                 variant="outline"
+                className="w-full"
                 leftIcon={<Edit className="w-4 h-4" />}
               >
                 Editar
@@ -127,6 +129,7 @@ export default function RecipeDetailPage() {
             </Link>
             <Button
               variant="danger"
+              className="flex-1 sm:flex-initial"
               leftIcon={<Trash2 className="w-4 h-4" />}
               onClick={() => setConfirmDelete(true)}
             >
@@ -184,7 +187,7 @@ export default function RecipeDetailPage() {
                       <th className="px-5 py-2.5 text-left font-medium text-[#6B3A1F]">
                         Cantidad
                       </th>
-                      <th className="px-5 py-2.5 text-left font-medium text-[#6B3A1F]">
+                      <th className="px-5 py-2.5 text-left font-medium text-[#6B3A1F] hidden sm:table-cell">
                         Stock
                       </th>
                       <th className="px-5 py-2.5 text-right font-medium text-[#6B3A1F]">
@@ -218,7 +221,7 @@ export default function RecipeDetailPage() {
                           <td className="px-5 py-3 text-[#6B3A1F]">
                             {ri.quantity} {ri.ingredients.unit}
                           </td>
-                          <td className="px-5 py-3">
+                          <td className="px-5 py-3 hidden sm:table-cell">
                             <div className="flex items-center gap-1.5">
                               {!stockSufficient && (
                                 <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
@@ -245,8 +248,14 @@ export default function RecipeDetailPage() {
                   <tfoot className="bg-[#F5EDE0]">
                     <tr>
                       <td
+                        colSpan={2}
+                        className="px-5 py-2.5 font-medium text-[#6B3A1F] sm:hidden"
+                      >
+                        Total materiales
+                      </td>
+                      <td
                         colSpan={3}
-                        className="px-5 py-2.5 font-medium text-[#6B3A1F]"
+                        className="px-5 py-2.5 font-medium text-[#6B3A1F] hidden sm:table-cell"
                       >
                         Total materiales
                       </td>

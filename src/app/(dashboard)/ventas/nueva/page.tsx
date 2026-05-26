@@ -229,12 +229,12 @@ function NuevaVentaContent() {
       />
 
       {/* Tabs */}
-      <div className="flex gap-1 p-1 bg-[#FAE8E5] rounded-[12px] w-fit">
+      <div className="flex gap-1 p-1 bg-[#FAE8E5] rounded-[12px] overflow-x-auto max-w-full whitespace-nowrap scrollbar-none">
         {tabs.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-[10px] text-sm font-medium transition-all ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-[10px] text-sm font-medium transition-all flex-shrink-0 whitespace-nowrap ${
               activeTab === tab.key
                 ? "bg-white text-[#C43B2A] shadow-sm"
                 : "text-[#6B3A1F] hover:text-[#2C1208]"

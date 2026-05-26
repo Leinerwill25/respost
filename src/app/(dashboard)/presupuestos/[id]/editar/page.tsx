@@ -172,17 +172,15 @@ export default function EditarPresupuestoPage() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex items-center gap-3">
-        <Link href={`/presupuestos/${id}`}>
-          <Button variant="ghost" size="sm" className="p-2">
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-        </Link>
-        <PageHeader
-          title="Editar Presupuesto"
-          subtitle="Modifica la cotización o recalcula precios con otros métodos"
-        />
-      </div>
+      <PageHeader
+        title="Editar Presupuesto"
+        subtitle="Modifica la cotización o recalcula precios con otros métodos"
+        breadcrumb={[
+          { label: "Presupuestos", href: "/presupuestos" },
+          { label: quote?.title || "Detalle", href: `/presupuestos/${id}` },
+          { label: "Editar" },
+        ]}
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column: Info + Builder */}

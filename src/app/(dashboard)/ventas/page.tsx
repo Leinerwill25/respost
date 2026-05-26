@@ -231,11 +231,11 @@ export default function VentasPage() {
                 <tr className="border-b border-[#E8D5BE] bg-[#F5EDE0]">
                   <th className="text-left px-6 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Fecha</th>
                   <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Producto</th>
-                  <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Cliente</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Cant.</th>
+                  <th className="text-left px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden md:table-cell">Cliente</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden sm:table-cell">Cant.</th>
                   <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Total</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Ganancia</th>
-                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Margen</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden md:table-cell">Ganancia</th>
+                  <th className="text-right px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden sm:table-cell">Margen</th>
                   <th className="text-center px-4 py-3 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">Pago</th>
                 </tr>
               </thead>
@@ -273,26 +273,26 @@ export default function VentasPage() {
                         </div>
                         <div className="text-xs text-[#A07050]">{sale.sale_type}</div>
                       </td>
-                      <td className="px-4 py-3 text-[#6B3A1F]">
+                      <td className="px-4 py-3 text-[#6B3A1F] hidden md:table-cell">
                         {sale.client_name || <span className="text-[#A07050]">—</span>}
                       </td>
-                      <td className="px-4 py-3 text-right font-medium text-[#2C1208]">
+                      <td className="px-4 py-3 text-right font-medium text-[#2C1208] hidden sm:table-cell">
                         {sale.quantity}
                       </td>
                       <td className="px-4 py-3 text-right">
                         <div className="font-semibold text-[#2C1208]">
                           {formatUSD(sale.total_price_usd ?? 0)}
                         </div>
-                        <div className="text-xs text-[#A07050]">
+                        <div className="text-xs text-[#A07050] hidden sm:block">
                           {formatBs(sale.total_price_bs ?? 0)}
                         </div>
                       </td>
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-4 py-3 text-right hidden md:table-cell">
                         <span className="text-[#2E7D32] font-medium">
                           {formatUSD(sale.profit_usd ?? 0)}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-right">
+                      <td className="px-4 py-3 text-right hidden sm:table-cell">
                         <Badge
                           variant={margin >= 40 ? "success" : margin >= 20 ? "warning" : "danger"}
                         >

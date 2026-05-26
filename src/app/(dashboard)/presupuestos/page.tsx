@@ -140,8 +140,8 @@ export default function PresupuestosPage() {
               <thead>
                 <tr className="bg-[#F5EDE0] text-[#6B3A1F] border-b border-[#E8D5BE]">
                   <th className="py-4 px-6 font-semibold">Cliente / Título</th>
-                  <th className="py-4 px-4 font-semibold text-center">Fecha</th>
-                  <th className="py-4 px-4 font-semibold text-center">Porciones</th>
+                  <th className="py-4 px-4 font-semibold text-center hidden sm:table-cell">Fecha</th>
+                  <th className="py-4 px-4 font-semibold text-center hidden md:table-cell">Porciones</th>
                   <th className="py-4 px-6 font-semibold text-right">Precio Final</th>
                   <th className="py-4 px-4 font-semibold text-center">Estado</th>
                   <th className="py-4 px-6 font-semibold text-center">Acciones</th>
@@ -159,11 +159,11 @@ export default function PresupuestosPage() {
                         <span className="capitalize">{quote.quote_type}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-4 text-center text-[#6B3A1F]">
+                    <td className="py-4 px-4 text-center text-[#6B3A1F] hidden sm:table-cell">
                       <div className="text-sm font-medium">{new Date(quote.created_at).toLocaleDateString("es-VE", { day: "2-digit", month: "short" })}</div>
                       <div className="text-xs text-[#A07050]">{formatRelativeDate(quote.created_at)}</div>
                     </td>
-                    <td className="py-4 px-4 text-center text-[#6B3A1F] font-medium">
+                    <td className="py-4 px-4 text-center text-[#6B3A1F] font-medium hidden md:table-cell">
                       {quote.portions}
                     </td>
                     <td className="py-4 px-6 text-right">

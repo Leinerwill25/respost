@@ -112,35 +112,32 @@ export default function PresupuestoDetailPage() {
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <Link href="/presupuestos">
-          <Button variant="ghost" size="sm" className="p-2">
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-        </Link>
-        <PageHeader
-          title={quote.title || "Detalle del Presupuesto"}
-          subtitle={`Cliente: ${quote.client_name || "S/N"}`}
-          actions={
-            <div className="flex items-center gap-2 print:hidden">
-              {quote.status !== "approved" && (
-                <Link href={`/presupuestos/${quote.id}/editar`}>
-                  <Button variant="secondary" leftIcon={<Edit2 className="w-4 h-4" />}>
-                    Editar
-                  </Button>
-                </Link>
-              )}
-              <Button variant="danger" leftIcon={<Trash2 className="w-4 h-4" />} onClick={handleDelete}>
-                Eliminar
-              </Button>
-            </div>
-          }
-        />
-      </div>
+      <PageHeader
+        title={quote.title || "Detalle del Presupuesto"}
+        subtitle={`Cliente: ${quote.client_name || "S/N"}`}
+        breadcrumb={[
+          { label: "Presupuestos", href: "/presupuestos" },
+          { label: "Detalle" },
+        ]}
+        actions={
+          <div className="flex flex-wrap items-center gap-2 print:hidden w-full sm:w-auto">
+            {quote.status !== "approved" && (
+              <Link href={`/presupuestos/${quote.id}/editar`} className="flex-1 sm:flex-initial">
+                <Button variant="secondary" className="w-full" leftIcon={<Edit2 className="w-4 h-4" />}>
+                  Editar
+                </Button>
+              </Link>
+            )}
+            <Button variant="danger" className="flex-1 sm:flex-initial" leftIcon={<Trash2 className="w-4 h-4" />} onClick={handleDelete}>
+              Eliminar
+            </Button>
+          </div>
+        }
+      />
 
       {/* Control Panel */}
       <Card className="print:hidden">
-        <div className="p-4 border-b border-[#E8D5BE] bg-[#F5EDE0] rounded-t-[12px] flex items-center justify-between">
+        <div className="p-4 border-b border-[#E8D5BE] bg-[#F5EDE0] rounded-t-[12px] flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-[#A07050] uppercase tracking-wide">Estado Actual:</span>
             <Badge variant={STATUS_BADGES[quote.status]}>
@@ -148,19 +145,20 @@ export default function PresupuestoDetailPage() {
             </Badge>
           </div>
           {quote.status === "approved" && (
-            <Link href={`/ventas/nueva?quoteId=${quote.id}`}>
-              <Button size="sm" leftIcon={<ShoppingCart className="w-4 h-4" />} className="bg-green-600 hover:bg-green-700">
+            <Link href={`/ventas/nueva?quoteId=${quote.id}`} className="w-full sm:w-auto">
+              <Button size="sm" leftIcon={<ShoppingCart className="w-4 h-4" />} className="w-full bg-green-600 hover:bg-green-700">
                 Convertir en Venta
               </Button>
             </Link>
           )}
         </div>
-        <div className="p-4 flex flex-wrap gap-3 items-center">
-          <span className="text-xs text-[#A07050] font-medium">Cambiar estado del presupuesto:</span>
+        <div className="p-4 flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:items-center">
+          <span className="text-xs text-[#A07050] font-medium sm:w-full lg:w-auto">Cambiar estado del presupuesto:</span>
 
           <Button
             size="sm"
             variant="outline"
+            className="w-full sm:w-auto"
             leftIcon={<Send className="w-4 h-4" />}
             onClick={() => handleStatusChange("sent")}
             disabled={quote.status === "sent" || quote.status === "approved"}
@@ -170,7 +168,7 @@ export default function PresupuestoDetailPage() {
 
           <Button
             size="sm"
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white"
             leftIcon={<CheckCircle2 className="w-4 h-4" />}
             onClick={() => handleStatusChange("approved")}
             disabled={quote.status === "approved"}
@@ -181,6 +179,7 @@ export default function PresupuestoDetailPage() {
           <Button
             size="sm"
             variant="danger"
+            className="w-full sm:w-auto"
             leftIcon={<XCircle className="w-4 h-4" />}
             onClick={() => handleStatusChange("rejected")}
             disabled={quote.status === "rejected"}
@@ -192,6 +191,7 @@ export default function PresupuestoDetailPage() {
             <Button
               size="sm"
               variant="ghost"
+              className="w-full sm:w-auto"
               onClick={() => handleStatusChange("draft")}
             >
               Volver a Borrador

@@ -155,17 +155,14 @@ export default function NuevoPresupuestoPage() {
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
-      <div className="flex items-center gap-3">
-        <Link href="/presupuestos">
-          <Button variant="ghost" size="sm" className="p-2">
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-        </Link>
-        <PageHeader
-          title="Nuevo Presupuesto"
-          subtitle="Genera una cotización personalizada con desglose de precios"
-        />
-      </div>
+      <PageHeader
+        title="Nuevo Presupuesto"
+        subtitle="Genera una cotización personalizada con desglose de precios"
+        breadcrumb={[
+          { label: "Presupuestos", href: "/presupuestos" },
+          { label: "Nuevo" },
+        ]}
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column: Info + Builder */}
