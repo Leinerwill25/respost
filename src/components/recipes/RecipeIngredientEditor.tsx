@@ -147,7 +147,7 @@ export function RecipeIngredientEditor({
                         <input
                           type="number"
                           min={0.001}
-                          step={0.1}
+                          step="any"
                           value={entry.quantity}
                           onChange={(e) =>
                             updateQuantity(
