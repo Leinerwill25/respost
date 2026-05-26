@@ -108,7 +108,7 @@ export default function InsumosPage() {
     ing.min_stock_alert > 0 && ing.stock_quantity <= ing.min_stock_alert;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <PageHeader
         title="Insumos"
         subtitle={`${(ingredients as IngredientRow[]).length} ingredientes registrados`}
@@ -246,7 +246,7 @@ export default function InsumosPage() {
                   <th className="text-left py-3.5 px-4 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden sm:table-cell">
                     Categoría
                   </th>
-                  <th className="text-right py-3.5 px-4 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">
+                  <th className="text-right py-3.5 px-4 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide hidden sm:table-cell">
                     Precio unit.
                   </th>
                   <th className="text-right py-3.5 px-4 text-xs font-semibold text-[#6B3A1F] uppercase tracking-wide">
@@ -298,6 +298,9 @@ export default function InsumosPage() {
                             <p className="text-xs text-[#A07050]">
                               {getPresentationLabel(ing.unit, ing.package_size)} · $
                               {ing.price_usd.toFixed(2)}
+                              <span className="sm:hidden block mt-0.5 text-[#C43B2A] font-medium">
+                                {unitPrice > 0 ? `Unitario: $${unitPrice.toFixed(2)}/${ing.unit}` : ""}
+                              </span>
                             </p>
                           </div>
                         </div>
@@ -313,7 +316,7 @@ export default function InsumosPage() {
                         )}
                       </td>
 
-                      <td className="py-4 px-4 text-right">
+                      <td className="py-4 px-4 text-right hidden sm:table-cell">
                         {unitPrice > 0 ? (
                           <CurrencyDisplay
                             amountUsd={unitPrice}
@@ -355,7 +358,7 @@ export default function InsumosPage() {
                       </td>
 
                       <td className="py-4 px-5">
-                        <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center justify-end gap-0.5 lg:gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => router.push(`/insumos/${ing.id}`)}
                             className="w-8 h-8 flex items-center justify-center rounded-[6px] hover:bg-[#FAE8E5] text-[#A07050] hover:text-[#C43B2A] transition-colors"

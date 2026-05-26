@@ -107,17 +107,22 @@ export function StockAdjustModal({
       title="Ajustar Stock"
       size="md"
       footer={
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-[var(--text-muted)]">
+        <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-3 w-full">
+          <div className="text-sm text-[var(--text-muted)] self-start sm:self-auto">
             <span className="font-semibold text-[var(--text-secondary)]">Stock actual:</span>{" "}
             {currentStock.toLocaleString("es-VE")} {unit}
           </div>
-          <div className="flex gap-3">
-            <Button variant="secondary" onClick={onClose}>
+          <div className="flex gap-3 w-full sm:w-auto">
+            <Button
+              variant="secondary"
+              className="flex-1 sm:flex-initial"
+              onClick={onClose}
+            >
               Cancelar
             </Button>
             <Button
               variant={isIN ? "primary" : "danger"}
+              className="flex-1 sm:flex-initial"
               isLoading={adjustStock.isPending}
               onClick={handleSubmit}
               disabled={!quantity || qty <= 0}

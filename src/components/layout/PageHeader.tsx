@@ -14,7 +14,7 @@ export function PageHeader({
   breadcrumb,
 }: PageHeaderProps) {
   return (
-    <div className="flex items-start justify-between mb-6">
+    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
       <div>
         {breadcrumb && breadcrumb.length > 0 && (
           <div className="flex items-center gap-1 text-xs text-[#A07050] mb-1 font-landing-sans">
@@ -44,7 +44,11 @@ export function PageHeader({
           <p className="text-[#A07050] mt-1 text-sm md:text-base font-landing-sans">{subtitle}</p>
         )}
       </div>
-      {actions && <div className="flex items-center gap-3">{actions}</div>}
+      {actions && (
+        <div className="flex items-center gap-3 w-full sm:w-auto justify-start sm:justify-end">
+          {actions}
+        </div>
+      )}
     </div>
   );
 }

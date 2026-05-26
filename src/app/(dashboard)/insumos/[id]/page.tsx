@@ -141,7 +141,7 @@ export default function IngredientDetailPage() {
     ?.ingredient_categories?.name;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
       <PageHeader
         title={ingredient.name}
@@ -172,23 +172,25 @@ export default function IngredientDetailPage() {
 
       {/* Stock Alert Banner */}
       {isLowStock && (
-        <div className="flex items-center gap-3 p-4 bg-[#FFF3E0] border border-[#FFCC80] rounded-[12px]">
-          <AlertTriangle className="w-5 h-5 text-[#E65100] flex-shrink-0" />
-          <p className="text-sm font-medium text-[#E65100]">
-            ¡Stock bajo! Tienes{" "}
-            <strong>
-              {ingredient.stock_quantity} {ingredient.unit}
-            </strong>{" "}
-            y el mínimo es{" "}
-            <strong>
-              {ingredient.min_stock_alert} {ingredient.unit}
-            </strong>
-            .
-          </p>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-3 p-4 bg-[#FFF3E0] border border-[#FFCC80] rounded-[12px]">
+          <div className="flex items-start sm:items-center gap-3 flex-1">
+            <AlertTriangle className="w-5 h-5 text-[#E65100] flex-shrink-0 mt-0.5 sm:mt-0" />
+            <p className="text-sm font-medium text-[#E65100]">
+              ¡Stock bajo! Tienes{" "}
+              <strong>
+                {ingredient.stock_quantity} {ingredient.unit}
+              </strong>{" "}
+              y el mínimo es{" "}
+              <strong>
+                {ingredient.min_stock_alert} {ingredient.unit}
+              </strong>
+              .
+            </p>
+          </div>
           <Button
             size="sm"
             variant="outline"
-            className="ml-auto border-[#FFCC80] text-[#E65100] hover:bg-[#FFF3E0]"
+            className="w-full sm:w-auto border-[#FFCC80] text-[#E65100] hover:bg-[#FFF3E0] sm:ml-auto"
             onClick={() => setStockModalOpen(true)}
           >
             Reponer
