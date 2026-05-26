@@ -49,7 +49,7 @@ export function Modal({
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
@@ -62,11 +62,11 @@ export function Modal({
         className={`
           relative w-full ${sizeClasses[size]} bg-white rounded-[20px] sm:rounded-[28px]
           shadow-[0_8px_32px_rgba(196,59,42,0.14)] border border-[#E8D5BE] animate-fade-in
-          flex flex-col max-h-[90vh] overflow-hidden
+          flex flex-col max-h-[95vh] sm:max-h-[90vh] overflow-hidden
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-[#E8D5BE] bg-white">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-[#E8D5BE] bg-white">
           <h2 className="font-landing-display text-lg sm:text-xl font-bold text-[#2C1208]">
             {title}
           </h2>
@@ -79,11 +79,11 @@ export function Modal({
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-6 bg-white font-sans text-sm text-[#4A2010]">{children}</div>
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-white font-sans text-sm text-[#4A2010]">{children}</div>
 
         {/* Footer */}
         {footer && (
-          <div className="border-t border-[#E8D5BE] p-6 bg-[#F5EDE0] rounded-b-[20px] sm:rounded-b-[28px]">
+          <div className="border-t border-[#E8D5BE] p-4 sm:p-6 bg-[#F5EDE0] rounded-b-[20px] sm:rounded-b-[28px]">
             {footer}
           </div>
         )}

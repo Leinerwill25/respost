@@ -112,17 +112,17 @@ export function StockAdjustModal({
             <span className="font-semibold text-[var(--text-secondary)]">Stock actual:</span>{" "}
             {currentStock.toLocaleString("es-VE")} {unit}
           </div>
-          <div className="flex gap-3 w-full sm:w-auto">
+          <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
             <Button
               variant="secondary"
-              className="flex-1 sm:flex-initial"
+              className="w-full sm:w-auto"
               onClick={onClose}
             >
               Cancelar
             </Button>
             <Button
               variant={isIN ? "primary" : "danger"}
-              className="flex-1 sm:flex-initial"
+              className="w-full sm:w-auto"
               isLoading={adjustStock.isPending}
               onClick={handleSubmit}
               disabled={!quantity || qty <= 0}
@@ -243,7 +243,7 @@ export function StockAdjustModal({
                 Costo estimado de compra
               </span>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-white rounded-[var(--radius-md)] p-3 border border-[var(--border-default)]">
                 <p className="text-xs text-[var(--text-muted)] mb-1">En USD</p>
                 <p className="text-lg font-bold text-[var(--text-heading)] font-display">

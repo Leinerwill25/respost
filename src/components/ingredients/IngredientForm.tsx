@@ -205,13 +205,13 @@ export function IngredientForm({
           Categoría
         </label>
         {showNewCategory ? (
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               value={newCategoryName}
               onChange={(e) => setNewCategoryName(e.target.value)}
               placeholder="Nombre de la nueva categoría"
-              className="flex-1 py-2.5 px-3 border border-[var(--border-default)] rounded-[var(--radius-md)] text-[var(--text-heading)] bg-white
+              className="w-full sm:flex-1 py-2.5 px-3 border border-[var(--border-default)] rounded-[var(--radius-md)] text-[var(--text-heading)] bg-white
                 placeholder:text-[var(--text-muted)]/60 focus:outline-none focus:ring-3 focus:ring-[var(--red-100)]
                 focus:border-[var(--red-600)] transition-all duration-200 text-sm"
               onKeyDown={(e) => {
@@ -221,25 +221,29 @@ export function IngredientForm({
                 }
               }}
             />
-            <Button
-              type="button"
-              size="sm"
-              onClick={handleCreateCategory}
-              isLoading={createCategory.isPending}
-            >
-              Crear
-            </Button>
-            <Button
-              type="button"
-              size="sm"
-              variant="ghost"
-              onClick={() => {
-                setShowNewCategory(false);
-                setNewCategoryName("");
-              }}
-            >
-              Cancelar
-            </Button>
+            <div className="flex gap-2 justify-end sm:justify-start">
+              <Button
+                type="button"
+                size="sm"
+                onClick={handleCreateCategory}
+                isLoading={createCategory.isPending}
+                className="flex-1 sm:flex-initial"
+              >
+                Crear
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  setShowNewCategory(false);
+                  setNewCategoryName("");
+                }}
+                className="flex-1 sm:flex-initial"
+              >
+                Cancelar
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="flex gap-2">
@@ -294,7 +298,7 @@ export function IngredientForm({
       </div>
 
       {/* Package Size + Price */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-semibold text-[var(--text-secondary)]">
             {terms.sizeLabel}
@@ -400,7 +404,7 @@ export function IngredientForm({
       )}
 
       {/* Stock + Min Stock Alert */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-1.5">
           <label className="text-sm font-semibold text-[var(--text-secondary)] flex items-center gap-1.5">
             <Archive className="w-3.5 h-3.5" />
@@ -465,12 +469,12 @@ export function IngredientForm({
       </div>
 
       {/* Actions */}
-      <div className="flex gap-3 pt-2">
+      <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 pt-2">
         {onCancel && (
           <Button
             type="button"
             variant="secondary"
-            className="flex-1"
+            className="w-full sm:w-auto"
             onClick={onCancel}
           >
             Cancelar
@@ -479,7 +483,7 @@ export function IngredientForm({
         <Button
           type="submit"
           variant="primary"
-          className="flex-1"
+          className="w-full sm:w-auto"
           isLoading={isBusy}
         >
           {isEditing ? "Guardar cambios" : "Crear insumo"}

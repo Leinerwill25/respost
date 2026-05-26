@@ -357,15 +357,17 @@ export default function RecipeDetailPage() {
             ¿Estás seguro de que deseas eliminar{" "}
             <strong>{recipe.name}</strong>? Esta acción no se puede deshacer.
           </p>
-          <div className="flex justify-end gap-3">
+          <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 sm:justify-end">
             <Button
               variant="ghost"
+              className="w-full sm:w-auto"
               onClick={() => setConfirmDelete(false)}
             >
               Cancelar
             </Button>
             <Button
               variant="danger"
+              className="w-full sm:w-auto"
               isLoading={deleteRecipe.isPending}
               onClick={handleDelete}
             >

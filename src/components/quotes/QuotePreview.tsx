@@ -104,39 +104,39 @@ export function QuotePreview({
         id="quote-printable"
       >
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#6C22F5] to-[#4A0ED4] p-8 text-white print:bg-[#6C22F5]">
-          <div className="flex items-start justify-between">
+        <div className="bg-gradient-to-r from-[#6C22F5] to-[#4A0ED4] p-6 sm:p-8 text-white print:bg-[#6C22F5]">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-white/20 rounded-[12px] flex items-center justify-center">
+              <div className="w-12 h-12 bg-white/20 rounded-[12px] flex items-center justify-center shrink-0">
                 <Croissant className="w-7 h-7 text-white" />
               </div>
               <div>
-                <h1 className="font-display text-2xl font-bold">{businessName}</h1>
-                <p className="text-white/80 text-sm">Sistema de Gestión de Repostería</p>
+                <h1 className="font-display text-xl sm:text-2xl font-bold">{businessName}</h1>
+                <p className="text-white/80 text-xs sm:text-sm">Sistema de Gestión de Repostería</p>
               </div>
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right w-full sm:w-auto">
               <div className="text-xs text-white/70 uppercase tracking-wide mb-1">
                 Presupuesto
               </div>
-              <div className="font-mono text-lg font-bold">{quoteNumber}</div>
-              <div className="text-sm text-white/80 mt-1">{createdDate}</div>
+              <div className="font-mono text-base sm:text-lg font-bold">{quoteNumber}</div>
+              <div className="text-xs sm:text-sm text-white/80 mt-1">{createdDate}</div>
             </div>
           </div>
         </div>
 
         {/* Client & meta info */}
-        <div className="p-6 border-b border-[#E2E0FF] bg-[#F6F5FB]">
-          <div className="grid grid-cols-2 gap-6">
+        <div className="p-4 sm:p-6 border-b border-[#E2E0FF] bg-[#F6F5FB]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
             <div>
               <p className="text-xs text-[#8A83A3] uppercase tracking-wide mb-1">Cliente</p>
-              <p className="font-semibold text-[#0F0926] text-lg">{quote.client_name}</p>
+              <p className="font-semibold text-[#0F0926] text-lg leading-tight">{quote.client_name}</p>
               {quote.client_contact && (
                 <p className="text-sm text-[#56507F] mt-0.5">{quote.client_contact}</p>
               )}
             </div>
-            <div className="text-right space-y-1">
-              <div className="flex justify-end gap-2 items-center">
+            <div className="text-left sm:text-right space-y-1 w-full sm:w-auto">
+              <div className="flex justify-start sm:justify-end gap-2 items-center">
                 <span className="text-xs text-[#8A83A3]">Estado:</span>
                 <span
                   className={`text-xs font-medium px-2 py-0.5 rounded-full ${
@@ -146,18 +146,18 @@ export function QuotePreview({
                   {STATUS_LABELS[quote.status] || quote.status}
                 </span>
               </div>
-              <div className="flex justify-end gap-2 items-center">
+              <div className="flex justify-start sm:justify-end gap-2 items-center">
                 <span className="text-xs text-[#8A83A3]">Tipo:</span>
                 <span className="text-xs font-medium text-[#56507F] capitalize">
                   {quote.quote_type}
                 </span>
               </div>
-              <div className="flex justify-end gap-2 items-center">
+              <div className="flex justify-start sm:justify-end gap-2 items-center">
                 <span className="text-xs text-[#8A83A3]">Porciones:</span>
                 <span className="text-xs font-medium text-[#56507F]">{quote.portions}</span>
               </div>
               {validUntilDate && (
-                <div className="flex justify-end gap-2 items-center">
+                <div className="flex justify-start sm:justify-end gap-2 items-center">
                   <span className="text-xs text-[#8A83A3]">Válido hasta:</span>
                   <span className="text-xs font-medium text-[#56507F]">{validUntilDate}</span>
                 </div>
@@ -192,60 +192,62 @@ export function QuotePreview({
 
                   {/* Items table */}
                   {section.items.length > 0 ? (
-                    <table className="w-full text-sm">
-                      <thead>
-                        <tr className="bg-[#EDE9FE]">
-                          <th className="text-left py-1.5 px-3 text-xs font-medium text-[#56507F] rounded-l-[6px]">
-                            Ítem
-                          </th>
-                          <th className="text-center py-1.5 px-3 text-xs font-medium text-[#56507F]">
-                            Cant.
-                          </th>
-                          <th className="text-center py-1.5 px-3 text-xs font-medium text-[#56507F]">
-                            Unidad
-                          </th>
-                          <th className="text-right py-1.5 px-3 text-xs font-medium text-[#56507F] rounded-r-[6px]">
-                            Precio USD
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {section.items.map((item, idx) => (
-                          <tr
-                            key={item.id}
-                            className={idx % 2 === 0 ? "bg-white" : "bg-[#F6F5FB]"}
-                          >
-                            <td className="py-1.5 px-3 text-[#0F0926]">
-                              {item.name || "(sin nombre)"}
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="bg-[#EDE9FE]">
+                            <th className="text-left py-1.5 px-3 text-xs font-medium text-[#56507F] rounded-l-[6px]">
+                              Ítem
+                            </th>
+                            <th className="text-center py-1.5 px-3 text-xs font-medium text-[#56507F]">
+                              Cant.
+                            </th>
+                            <th className="text-center py-1.5 px-3 text-xs font-medium text-[#56507F]">
+                              Unidad
+                            </th>
+                            <th className="text-right py-1.5 px-3 text-xs font-medium text-[#56507F] rounded-r-[6px]">
+                              Precio USD
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {section.items.map((item, idx) => (
+                            <tr
+                              key={item.id}
+                              className={idx % 2 === 0 ? "bg-white" : "bg-[#F6F5FB]"}
+                            >
+                              <td className="py-1.5 px-3 text-[#0F0926]">
+                                {item.name || "(sin nombre)"}
+                              </td>
+                              <td className="py-1.5 px-3 text-center text-[#56507F]">
+                                {item.quantity}
+                              </td>
+                              <td className="py-1.5 px-3 text-center text-[#8A83A3] text-xs">
+                                {item.unit || "—"}
+                              </td>
+                              <td className="py-1.5 px-3 text-right font-medium text-[#0F0926]">
+                                {formatUSD(item.price_usd)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td
+                              colSpan={3}
+                              className="py-1.5 px-3 text-right text-xs font-semibold text-[#56507F]"
+                            >
+                              Subtotal {section.name}:
                             </td>
-                            <td className="py-1.5 px-3 text-center text-[#56507F]">
-                              {item.quantity}
-                            </td>
-                            <td className="py-1.5 px-3 text-center text-[#8A83A3] text-xs">
-                              {item.unit || "—"}
-                            </td>
-                            <td className="py-1.5 px-3 text-right font-medium text-[#0F0926]">
-                              {formatUSD(item.price_usd)}
+                            <td className="py-1.5 px-3 text-right font-bold text-[#6C22F5]">
+                              {formatUSD(
+                                section.items.reduce((s, i) => s + i.price_usd, 0)
+                              )}
                             </td>
                           </tr>
-                        ))}
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <td
-                            colSpan={3}
-                            className="py-1.5 px-3 text-right text-xs font-semibold text-[#56507F]"
-                          >
-                            Subtotal {section.name}:
-                          </td>
-                          <td className="py-1.5 px-3 text-right font-bold text-[#6C22F5]">
-                            {formatUSD(
-                              section.items.reduce((s, i) => s + i.price_usd, 0)
-                            )}
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                        </tfoot>
+                      </table>
+                    </div>
                   ) : (
                     <p className="text-xs text-[#8A83A3] italic ml-4">
                       Sin ítems en esta sección.
@@ -381,7 +383,7 @@ export function QuotePreview({
 
         {/* Footer */}
         <div className="px-6 pb-6">
-          <div className="border-t border-[#E2E0FF] pt-4 flex items-center justify-between text-xs text-[#8A83A3]">
+          <div className="border-t border-[#E2E0FF] pt-4 flex flex-col sm:flex-row gap-2 items-center sm:justify-between text-center sm:text-left text-xs text-[#8A83A3]">
             <p>
               Generado por <span className="font-semibold text-[#6C22F5]">PastryPro</span>
             </p>

@@ -207,7 +207,7 @@ function SortableSection({
           {section.items.map((item) => (
             <div
               key={item.id}
-              className="flex items-start gap-2 p-2 bg-[#F6F5FB] rounded-[8px] border border-[#E2E0FF]"
+              className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 sm:gap-2 p-3 sm:p-2 bg-[#F6F5FB] rounded-[8px] border border-[#E2E0FF]"
             >
               {/* Item name / ingredient selector */}
               <div className="flex-1 min-w-0 relative">
@@ -284,69 +284,72 @@ function SortableSection({
                 )}
               </div>
 
-              {/* Quantity */}
-              <div className="flex flex-col items-center gap-0.5">
-                <span className="text-[10px] text-[#8A83A3]">Cant.</span>
-                <input
-                  type="number"
-                  min={0}
-                  step={0.01}
-                  value={item.quantity}
-                  onChange={(e) => {
-                    const qty = parseFloat(e.target.value) || 0;
-                    if (item.ingredient_id && !item.is_manual) {
-                      const ing = ingredients.find((i) => i.id === item.ingredient_id);
-                      if (ing) {
-                        const unitPrice = ing.price_usd / ing.package_size;
-                        updateItem(item.id, { quantity: qty, price_usd: unitPrice * qty });
-                        return;
+              {/* Controls Group */}
+              <div className="flex items-center gap-3 justify-between sm:justify-start sm:shrink-0 w-full sm:w-auto border-t sm:border-t-0 pt-2 sm:pt-0 mt-1 sm:mt-0">
+                {/* Quantity */}
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className="text-[10px] text-[#8A83A3]">Cant.</span>
+                  <input
+                    type="number"
+                    min={0}
+                    step={0.01}
+                    value={item.quantity}
+                    onChange={(e) => {
+                      const qty = parseFloat(e.target.value) || 0;
+                      if (item.ingredient_id && !item.is_manual) {
+                        const ing = ingredients.find((i) => i.id === item.ingredient_id);
+                        if (ing) {
+                          const unitPrice = ing.price_usd / ing.package_size;
+                          updateItem(item.id, { quantity: qty, price_usd: unitPrice * qty });
+                          return;
+                        }
                       }
-                    }
-                    updateItem(item.id, { quantity: qty });
-                  }}
-                  className="w-16 text-xs text-center border border-[var(--border-default)] rounded-[var(--radius-sm)] py-1 px-1 focus:outline-none focus:ring-2 focus:ring-[var(--red-100)] focus:border-[var(--red-600)] bg-white text-[var(--text-heading)] font-semibold"
-                />
-              </div>
-
-              {/* Price USD */}
-              <div className="flex flex-col items-center gap-0.5">
-                <div className="flex items-center gap-0.5">
-                  <span className="text-[10px] text-[#8A83A3]">Precio $</span>
-                  <button
-                    onClick={() => updateItem(item.id, { is_manual: !item.is_manual })}
-                    title={item.is_manual ? "Precio manual" : "Precio automático"}
-                    className="text-[var(--text-muted)] hover:text-[var(--red-600)]"
-                  >
-                    <PenLine className="w-2.5 h-2.5" />
-                  </button>
+                      updateItem(item.id, { quantity: qty });
+                    }}
+                    className="w-16 text-xs text-center border border-[var(--border-default)] rounded-[var(--radius-sm)] py-1 px-1 focus:outline-none focus:ring-2 focus:ring-[var(--red-100)] focus:border-[var(--red-600)] bg-white text-[var(--text-heading)] font-semibold"
+                  />
                 </div>
-                <input
-                  type="number"
-                  min={0}
-                  step={0.01}
-                  value={item.price_usd}
-                  onChange={(e) =>
-                    updateItem(item.id, {
-                      price_usd: parseFloat(e.target.value) || 0,
-                      is_manual: true,
-                    })
-                  }
-                  className="w-20 text-xs text-center border border-[var(--border-default)] rounded-[var(--radius-sm)] py-1 px-1 focus:outline-none focus:ring-2 focus:ring-[var(--red-100)] focus:border-[var(--red-600)] bg-white text-[var(--text-heading)] font-semibold"
-                />
-                {euroRate > 0 && (
-                  <span className="text-[10px] text-[#8A83A3]">
-                    {formatBs(convertToBs(item.price_usd, euroRate))}
-                  </span>
-                )}
-              </div>
 
-              {/* Remove item */}
-              <button
-                onClick={() => removeItem(item.id)}
-                className="mt-5 p-1 text-[#8A83A3] hover:text-red-500 rounded transition-colors"
-              >
-                <X className="w-3 h-3" />
-              </button>
+                {/* Price USD */}
+                <div className="flex flex-col items-center gap-0.5">
+                  <div className="flex items-center gap-0.5">
+                    <span className="text-[10px] text-[#8A83A3]">Precio $</span>
+                    <button
+                      onClick={() => updateItem(item.id, { is_manual: !item.is_manual })}
+                      title={item.is_manual ? "Precio manual" : "Precio automático"}
+                      className="text-[var(--text-muted)] hover:text-[var(--red-600)]"
+                    >
+                      <PenLine className="w-2.5 h-2.5" />
+                    </button>
+                  </div>
+                  <input
+                    type="number"
+                    min={0}
+                    step={0.01}
+                    value={item.price_usd}
+                    onChange={(e) =>
+                      updateItem(item.id, {
+                        price_usd: parseFloat(e.target.value) || 0,
+                        is_manual: true,
+                      })
+                    }
+                    className="w-20 text-xs text-center border border-[var(--border-default)] rounded-[var(--radius-sm)] py-1 px-1 focus:outline-none focus:ring-2 focus:ring-[var(--red-100)] focus:border-[var(--red-600)] bg-white text-[var(--text-heading)] font-semibold"
+                  />
+                  {euroRate > 0 && (
+                    <span className="text-[10px] text-[#8A83A3]">
+                      {formatBs(convertToBs(item.price_usd, euroRate))}
+                    </span>
+                  )}
+                </div>
+
+                {/* Remove item */}
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="mt-4 sm:mt-5 p-1 text-[#8A83A3] hover:text-red-500 rounded transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           ))}
 
